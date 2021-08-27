@@ -7,4 +7,12 @@ erl_crash.dump
 *.ez
 *.beam
 /config/*.secret.exs
+
+# ElixirLS Project Directory - https://github.com/elixir-lsp/elixir-ls
 .elixir_ls/
+
+# IntelliJ IDEA Project Files - https://www.jetbrains.com/idea/, https://github.com/KronicDeth/intellij-elixir
+.idea/
+**/*.iml
+
+
