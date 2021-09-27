@@ -9,4 +9,16 @@ defmodule ElixirTestingTest do
     assert ElixirTesting.test_static_function_variable
   end
 
+  test "test_enumeration" do
+    assert ElixirTesting.test_enumeration
+  end
+
+  test "test_macro_unless" do
+    assert ElixirTesting.test_macro_unless
+  end
+
+  test "test_macro_ternary" do
+    assert ElixirTesting.test_macro_ternary
+  end
+
 end
