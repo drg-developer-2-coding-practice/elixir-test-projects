@@ -26,14 +26,48 @@ defmodule Macros do
 #    end
 #  end
 #
+#  defmacro if?(condition, true_expr, false_expr) do
+#    if condition do
+#      true_expr
+#    else
+#      false_expr
+#    end
+#  end
+
+#  defmacro if2?(condition, _?: true_expr, do: false_expr) do
+#    if condition do
+#      true_expr
+#    else
+#      false_expr
+#    end
+#  end
+
   defmacro if?(condition, true_expr, false_expr) do
-    if condition do
-      true_expr
-    else
-      false_expr
+    quote do
+      if unquote(condition) do
+        unquote(true_expr)
+      else
+        unquote(false_expr)
+      end
     end
   end
-#
+
+#  defmacro if3?(condition, do: expression) do
+#    quote do
+#      if unquote(condition) do
+#        unquote(expression)
+#      else
+#        false
+#      end
+#    end
+#  end
+
+
+
+
+
+
+  #
 #  def condition ||| true_expr, false_expr do
 #    if condition do
 #      true_expr

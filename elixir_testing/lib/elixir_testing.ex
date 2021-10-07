@@ -88,7 +88,73 @@ defmodule ElixirTesting do
     IO.puts if?(true, "True expression.", "False expression.")
     IO.puts if?(false, "True expression.", "False expression.")
 #    IO.puts true ||| "True expression.", "False expression."
+#    IO.puts if3?(true, do: "True expression.")
+#    IO.puts if3?(false, do: "True expression.")
     :ok
   end
 
 end
+
+
+
+
+
+defmodule TradeserfTest.Macros do
+
+  # ----------------------------------------------------------------------------
+  # region Logical Operators
+  # ----------------------------------------------------------------------------
+
+  @doc """
+  Ternary operator (if-ternary).
+
+    Expressed as:                     ift(condition ||| true_expr | false_expr)
+    Expressed in other languages as:  condition ? true_expr : false_expr
+
+  Parameters:
+    condition - Test condition.
+    true_expr - Expression returned if condition is true.
+    false_expr - Expression returned if condition is false.
+
+  Return:
+    true_expr if condition, false_expr otherwise.
+  """
+  defmacro if( {:|, _, [{:|||, _, [condition, true_expr]}, false_expr]} = expr) do
+    quote do
+      if unquote(condition) do
+        unquote(true_expr)
+      else
+        unquote(false_expr)
+      end
+    end
+  end
+
+  @doc """
+  Retrieve a tuple element by index. Syntax:
+
+      some_tuple~>i
+
+  Parameters:
+    tuple - The tuple to grab data from.
+    index - The index of the element of interest.
+
+  Returns:
+    The tuple item at the requested index. Exception if out of range.
+  """
+  def tuple ~> index, do: elem(tuple, index)
+
+end
+
+
+
+      t = {:a, :b, :c}
+
+
+      IO.inspect t~>0
+      IO.inspect t~>1
+      i=2
+      IO.inspect t~>i
+
+      IO.inspect if true ||| :a | :b
+      IO.inspect if false ||| :a | :b
+
