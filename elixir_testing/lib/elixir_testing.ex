@@ -73,7 +73,9 @@ defmodule ElixirTesting do
 
   end
 
+  # ----------------------------------------------------------------------------
   # region Macro Testing
+  # ----------------------------------------------------------------------------
 
   def test_macro_unless do
     require Macros
@@ -93,68 +95,52 @@ defmodule ElixirTesting do
     :ok
   end
 
-end
-
-
-
-
-
-defmodule TradeserfTest.Macros do
-
   # ----------------------------------------------------------------------------
-  # region Logical Operators
+  # region Stream Testing
   # ----------------------------------------------------------------------------
 
-  @doc """
-  Ternary operator (if-ternary).
-
-    Expressed as:                     ift(condition ||| true_expr | false_expr)
-    Expressed in other languages as:  condition ? true_expr : false_expr
-
-  Parameters:
-    condition - Test condition.
-    true_expr - Expression returned if condition is true.
-    false_expr - Expression returned if condition is false.
-
-  Return:
-    true_expr if condition, false_expr otherwise.
-  """
-  defmacro if( {:|, _, [{:|||, _, [condition, true_expr]}, false_expr]} = expr) do
-    quote do
-      if unquote(condition) do
-        unquote(true_expr)
-      else
-        unquote(false_expr)
-      end
-    end
+  def test_nonfunctionalized_stream_composition() do
+    out = IO.stream(:stdio, :line)
+    stream = 1..3
+      |> Stream.map(&IO.write(out, &1))
+      |> Stream.map(&(&1 * 2))
+      |> Stream.map(&IO.write(out, &1))
+    Enum.to_list(stream)
+    out
   end
 
-  @doc """
-  Retrieve a tuple element by index. Syntax:
+  def test_functionalized_stream_composition() do
+    out = IO.stream(:stdio, :line)
+    stream = 1..3
+      |> Stream.map(&IO.write(out, &1))
+      |> internal_fcn()
+      |> Stream.map(&IO.write(out, &1))
+    Enum.to_list(stream)
+    out
+  end
 
-      some_tuple~>i
-
-  Parameters:
-    tuple - The tuple to grab data from.
-    index - The index of the element of interest.
-
-  Returns:
-    The tuple item at the requested index. Exception if out of range.
-  """
-  def tuple ~> index, do: elem(tuple, index)
+  defp internal_fcn(stream), do: Stream.map(stream, &(&1 * 2))
 
 end
 
 
 
-      t = {:a, :b, :c}
 
 
-      IO.inspect t~>0
-      IO.inspect t~>1
-      i=2
-      IO.inspect t~>i
+#defmodule Macros do
 
-      IO.inspect if true ||| :a | :b
-      IO.inspect if false ||| :a | :b
+#end
+
+
+#
+#      t = {:a, :b, :c}
+#
+#
+#      IO.inspect t~>0
+#      IO.inspect t~>1
+#      i=2
+#      IO.inspect t~>i
+#
+#      IO.inspect if true ||| :a | :b
+#      IO.inspect if false ||| :a | :b
 
