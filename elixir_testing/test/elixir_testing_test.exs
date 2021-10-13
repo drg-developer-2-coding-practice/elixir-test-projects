@@ -2,9 +2,10 @@ defmodule ElixirTestingTest do
   use ExUnit.Case
   require Macros
   import Macros
+  alias ElixirTesting.MapUtilities
   alias ElixirTesting.TestUtilities
 
-  describe "Globals and Constants Testing" do
+  describe "Globals and Constants Testing:" do
 
     @horizontal_line String.duplicate("-", 80)
     test "test_gobal_constant" do
@@ -23,7 +24,7 @@ defmodule ElixirTestingTest do
 
   end
 
-  describe "Enumeration Alternatives Testing" do
+  describe "Enumeration Alternatives Testing:" do
 
     test "test_enumeration" do
       e = %ElixirTesting.IceCreamFlavorEnumeration{}
@@ -38,7 +39,7 @@ defmodule ElixirTestingTest do
 
   end
 
-  describe "Macros Testing" do
+  describe "Macros Testing:" do
 
     test "test_macro_unless" do
       Macros.fun_unless(true, do: IO.puts "this should never be printed 1")
@@ -66,7 +67,7 @@ defmodule ElixirTestingTest do
 
   end
 
-  describe "Streams Testing" do
+  describe "Streams Testing:" do
 
       #  test "test_functionalized_stream_composition" do
   #    ret_1 = ElixirTesting.test_nonfunctionalized_stream_composition()
@@ -81,9 +82,9 @@ defmodule ElixirTestingTest do
 
   end
 
-  describe "Warpath (https://hexdox.pm/warpath/Warpath.html) Testing" do
+  describe "Warpath (https://hexdox.pm/warpath/Warpath.html) Testing:" do
 
-      test "warpath_testing1" do
+    test "warpath_testing1" do
       document = %{"elements" => [:a, :b, :c]}
       q = Warpath.query!(document, "$.elements[*]")
       IO.inspect q
@@ -92,18 +93,31 @@ defmodule ElixirTestingTest do
 
     @input_filename "warpath_testing2_input.json"
     @expected_decomposition_filename "warpath_testing2_expected_decomposition.json"
+    @expected_selectedlists_filename "warpath_testing2_expected_selectedlists.json"
+    @expected_sorted_filename "warpath_testing2_expected_sorted.json"
     test "warpath_testing2" do
 
       input = TestUtilities.read_input_json(@input_filename)
       expected_decomposition = TestUtilities.read_expected_json(@expected_decomposition_filename)
+      expected_selectedlists = TestUtilities.read_expected_json(@expected_selectedlists_filename)
+      expected_sorted = TestUtilities.read_expected_json(@expected_sorted_filename)
 
       # Decomposition
       decomposed = Warpath.query!(input, "$..*")
       assert expected_decomposition == decomposed
 
+      # Selection
+      selectedlists = Warpath.query!(input, "$..[?(is_list(@))]")
+      assert expected_selectedlists == selectedlists
+
       # Sorting
+      {:ok, sorted} = MapUtilities.sort_internal_lists(input)
+      IO.inspect sorted
+      assert expected_sorted == sorted
 
       # Composition
+      #NOT POSSIBLE - Unable to relate downstream map components to keys.
+      #ElxirTesting.compose_warpath(decomposed)
 
     end
 
