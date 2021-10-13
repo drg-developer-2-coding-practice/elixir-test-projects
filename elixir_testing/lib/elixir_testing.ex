@@ -67,39 +67,8 @@ defmodule ElixirTesting do
   defp internal_fcn(stream), do: Stream.map(stream, &(&1 * 2))
 
   # ----------------------------------------------------------------------------
-  # region Warpath (https://hexdox.pm/warpath/Warpath.html) Testing
+  # region
   # ----------------------------------------------------------------------------
-
-
-
-
-  # Decomposition
-  Warpath.query!(m, "$..*")
-
-  # Sorting
-
-  # Composition
-
-
-
-  m = %{
-      a: %{
-        "b" => [
-          %{
-            "c" => [
-              "d",
-              "e"
-            ]
-          }
-        ]
-      }
-    }
-
-    q = Warpath.query!(m, "$.a")
-    IO.inspect q
-    assert  == q
-
-  end
 
 
 end
