@@ -99,11 +99,12 @@ defmodule ElixirTestingTest do
 
       # Decomposition
       decomposed = Warpath.query!(input, "$..*")
-      assert expected_decomposition == expected_decomposition
+      assert expected_decomposition == decomposed
 
       # Sorting
 
       # Composition
+
     end
 
   end
