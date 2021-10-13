@@ -1,0 +1,4 @@
+%{
+  "jason": {:hex, :jason, "1.2.2", "ba43e3f2709fd1aa1dce90aaabfd039d000469c05c56f0b8e31978e03fa39052", [:mix], [{:decimal, "~> 1.0 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "18a228f5f0058ee183f29f9eae0805c6e59d61c3b006760668d8d18ff0d12179"},
+  "warpath": {:hex, :warpath, "0.6.2", "b8732d447378c8b353db7cdc9e2674b0f2276eab0aa489af19161834d0a10706", [:mix], [{:jason, "~> 1.2", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm", "ab4c579b26383e026087c587dd1d28991e6cb74c4dd0ed23bb81a190344eb004"},
+}
