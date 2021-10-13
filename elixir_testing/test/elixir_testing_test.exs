@@ -94,13 +94,15 @@ defmodule ElixirTestingTest do
     @input_filename "warpath_testing2_input.json"
     @expected_decomposition_filename "warpath_testing2_expected_decomposition.json"
     @expected_selectedlists_filename "warpath_testing2_expected_selectedlists.json"
-    @expected_sorted_filename "warpath_testing2_expected_sorted.json"
+    @expected_sorted_filename_1 "warpath_testing2_expected_sorted_1.json"
+    @expected_sorted_filename_2 "warpath_testing2_expected_sorted_2.json"
     test "warpath_testing2" do
 
       input = TestUtilities.read_input_json(@input_filename)
       expected_decomposition = TestUtilities.read_expected_json(@expected_decomposition_filename)
       expected_selectedlists = TestUtilities.read_expected_json(@expected_selectedlists_filename)
-      expected_sorted = TestUtilities.read_expected_json(@expected_sorted_filename)
+      expected_sorted_1 = TestUtilities.read_expected_json(@expected_sorted_filename_1)
+      expected_sorted_2 = TestUtilities.read_expected_json(@expected_sorted_filename_2)
 
       # Decomposition
       decomposed = Warpath.query!(input, "$..*")
@@ -110,10 +112,15 @@ defmodule ElixirTestingTest do
       selectedlists = Warpath.query!(input, "$..[?(is_list(@))]")
       assert expected_selectedlists == selectedlists
 
-      # Sorting
+      # Sorting 1
       {:ok, sorted} = MapUtilities.sort_internal_lists(input)
       IO.inspect sorted
-      assert expected_sorted == sorted
+      assert expected_sorted_1 == sorted
+
+      # Sorting 2
+      {:ok, sorted} = MapUtilities.sort_internal_lists(input, & &1 >= &2)
+      IO.inspect sorted
+      assert expected_sorted_2 == sorted
 
       # Composition
       #NOT POSSIBLE - Unable to relate downstream map components to keys.
